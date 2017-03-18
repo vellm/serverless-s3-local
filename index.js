@@ -1,3 +1,5 @@
+'use strict';
+
 const Promise = require('bluebird');
 const S3rver = require('s3rver');
 const fs = require('fs');
