@@ -64,12 +64,13 @@ class ServerlessS3Local {
           s3ForcePathStyle: true,
           endpoint: new AWS.Endpoint(`http://localhost:${s3Port}`),
         });
-        buckets.forEach((bucket) => {
-          s3Client.createBucket({ Bucket: bucket }, () => {});
-        });
-      });
 
-      resolve();
+        Promise.all(
+          buckets.map((bucket) => s3Client.createBucket({ Bucket: bucket }).promise())
+        )
+        .catch(() => null)
+        .then(() => resolve());
+      });
     });
   }
 }
