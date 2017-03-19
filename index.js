@@ -52,13 +52,13 @@ class ServerlessS3Local {
       const hostname = 'localhost';
       const silent = false;
       const directory = options.directory || fs.realpathSync('./');
+
       new S3rver({ port, hostname, silent, directory }).run((err, s3Host, s3Port) => {
         if (err) {
-          console.error('Error occured while starting S3 local.');
-          return;
+          throw new Error('Error occured while starting S3 local.');
         }
 
-        console.log(`S3 local started ( port:${s3Port} )`);
+        this.serverless.cli.log(`S3 local started ( port:${s3Port} )`);
 
         const s3Client = new AWS.S3({
           s3ForcePathStyle: true,
